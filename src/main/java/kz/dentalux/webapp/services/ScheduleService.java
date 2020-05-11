@@ -62,8 +62,8 @@ public class ScheduleService {
         res.setResourceId(saved.getDoctor().getId());
         res.setStatus(saved.getStatus());
         res.setTitle(String.format("%s %s.%s.", schedule.getPatient().getLastName(),
-            schedule.getPatient().getFirstName().substring(0, 1),
-            schedule.getPatient().getPatronymic().substring(0, 1)));
+            schedule.getPatient().getFirstName(),
+            schedule.getPatient().getPatronymic()));
         res.setStart(saved.getStartTime());
         res.setExtendedProps(Collections.singletonMap("status", saved.getStatus()));
         res.setPatientId(schedule.getPatient().getId());
@@ -78,8 +78,8 @@ public class ScheduleService {
                 schedule.getStartTime(),
                 schedule.getEndTime(),
                 String.format("%s %s.%s.", schedule.getPatient().getLastName(),
-                    schedule.getPatient().getFirstName().substring(0, 1),
-                    schedule.getPatient().getPatronymic().substring(0, 1)),
+                    schedule.getPatient().getFirstName(),
+                    schedule.getPatient().getPatronymic()),
                 schedule.getStatus(),
                 schedule.getPatient().getMobilePhone(),
                 schedule.getPatient().getId(),
@@ -107,8 +107,8 @@ public class ScheduleService {
         res.setNote(saved.getNote());
         res.setResourceId(saved.getDoctor().getId());
         res.setTitle(String.format("%s %s.%s.", schedule.getPatient().getLastName(),
-            schedule.getPatient().getFirstName().substring(0, 1),
-            schedule.getPatient().getPatronymic().substring(0, 1)));
+            schedule.getPatient().getFirstName(),
+            schedule.getPatient().getPatronymic()));
         res.setStart(saved.getStartTime());
         res.setPatientId(schedule.getPatient().getId());
         res.setStatus(schedule.getStatus());
@@ -129,8 +129,8 @@ public class ScheduleService {
         res.setNote(saved.getNote());
         res.setResourceId(saved.getDoctor().getId());
         res.setTitle(String.format("%s %s.%s.", schedule.getPatient().getLastName(),
-            schedule.getPatient().getFirstName().substring(0, 1),
-            schedule.getPatient().getPatronymic().substring(0, 1)));
+            schedule.getPatient().getFirstName(),
+            schedule.getPatient().getPatronymic()));
         res.setStart(saved.getStartTime());
         res.setPatientId(schedule.getPatient().getId());
         res.setStatus(schedule.getStatus());
