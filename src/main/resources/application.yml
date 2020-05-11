@@ -1,8 +1,11 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/dentalux
-    username: mfs
-    password: mfs
+#    url: jdbc:postgresql://localhost:5433/dentalux
+#    username: mfs
+#    password: mfs
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
 
   #drop n create table again, good for testing, comment this in production
   jpa:

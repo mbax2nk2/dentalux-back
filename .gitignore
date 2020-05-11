@@ -1,0 +1,32 @@
+# Intellij Idea
+/classes
+.idea
+*.iml
+out
+
+# Gradle
+.gradle
+gradle.properties
+/gradle/wrapper
+/gradlew
+/gradlew.bat
+/build/
+/*/build/
+
+# wildfly local configurations
+/coda_wildfly/standalone_coda2/_*
+global-groovy.log
+soapui-errors.log
+soapui.log
+
+# Most specific config overrides
+/config
+# Sparta logs
+/log
+
+# MFS logs
+/mfs/log
+/*/**/public/html5
+
+#Misc
+.DS_Store
