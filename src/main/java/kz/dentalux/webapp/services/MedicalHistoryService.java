@@ -59,7 +59,7 @@ public class MedicalHistoryService extends AbstractService {
                 .adultTooth(saved.isAdultTooth())
                 .childTooth(saved.isChildTooth())
                 .doctor(new Doctor(saved.getDoctor().getId()))
-                .patient(new Patient(saved.getDoctor().getId()))
+                .patient(new Patient(saved.getPatient().getId()))
                 .schedule(new Schedule(saved.getSchedule().getId()))
                 .illnessDescriptions(Collections.singletonList(illnessDescription))
                 .build();
