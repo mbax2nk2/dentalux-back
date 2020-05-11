@@ -6,10 +6,6 @@ out
 
 # Gradle
 .gradle
-gradle.properties
-/gradle/wrapper
-/gradlew
-/gradlew.bat
 /build/
 /*/build/
 
