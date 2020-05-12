@@ -26,5 +26,8 @@ public class PatientDto {
     private String mobilePhone;
     private String telephone;
     private TreatmentPlanDto treatmentPlan;
+    private String comment;
+    private String additionalComment;
+    private String email;
 
 }

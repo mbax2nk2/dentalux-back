@@ -28,6 +28,9 @@ public class Patient {
     private String mobilePhone;
     private String telephone;
     private int saldo;
+    private String comment;
+    private String additionalComment;
+    private String email;
 
     public Patient(Long id) {
         this.id = id;

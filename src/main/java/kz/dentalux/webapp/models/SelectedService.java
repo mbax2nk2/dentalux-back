@@ -38,4 +38,6 @@ public class SelectedService {
     )
     private int[] toothList;
 
+    private int quantity;
+
 }
