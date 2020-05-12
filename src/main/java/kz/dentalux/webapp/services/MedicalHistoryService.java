@@ -46,6 +46,7 @@ public class MedicalHistoryService extends AbstractService {
         int[] toothList = saved.getSelectedServices().stream()
             .map(SelectedService::getToothList)
             .flatMapToInt(Arrays::stream)
+            .distinct()
             .toArray();
         IllnessDescription illnessDescription = IllnessDescription.builder()
             .lowerJaw(saved.isLowerJaw())
