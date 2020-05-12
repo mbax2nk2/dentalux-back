@@ -51,10 +51,10 @@ public class PatientService {
         return repository.save(patient);
     }
 
-    public void updateSaldo(Long patientId, Integer saldo) {
+    public Patient updateSaldo(Long patientId, Integer saldo) {
         Patient patient = repository.findById(patientId)
             .orElseThrow(() -> new IllegalStateException("patient not found"));
         patient.setSaldo(saldo);
-        repository.save(patient);
+        return repository.save(patient);
     }
 }

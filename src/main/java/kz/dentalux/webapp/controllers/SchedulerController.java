@@ -3,6 +3,7 @@ package kz.dentalux.webapp.controllers;
 import java.time.LocalDate;
 import java.util.List;
 import kz.dentalux.webapp.dto.CreateEvent;
+import kz.dentalux.webapp.dto.CreateEventRes;
 import kz.dentalux.webapp.dto.EventDto;
 import kz.dentalux.webapp.models.Schedule.Status;
 import kz.dentalux.webapp.services.ScheduleService;
@@ -35,7 +36,7 @@ public class SchedulerController {
     }
 
     @PostMapping
-    public EventDto create(@RequestBody CreateEvent createEvent) {
+    public CreateEventRes create(@RequestBody CreateEvent createEvent) {
         return service.createEvent(createEvent);
     }
 

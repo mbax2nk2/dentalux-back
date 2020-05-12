@@ -77,7 +77,6 @@ public class JwtTokenProvider {
 //            if (claims.getBody().getExpiration().before(new Date())) {
 //                return false;
 //            }
-            System.out.println("valid");
             return true;
         } catch (JwtException | IllegalArgumentException e) {
 //            throw new InvalidJwtAuthenticationException("Expired or invalid JWT token");

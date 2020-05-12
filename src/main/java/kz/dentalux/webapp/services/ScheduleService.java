@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import kz.dentalux.webapp.dto.CreateEvent;
+import kz.dentalux.webapp.dto.CreateEventRes;
 import kz.dentalux.webapp.dto.EventDto;
 import kz.dentalux.webapp.dto.PatientDto;
 import kz.dentalux.webapp.models.Doctor;
@@ -15,6 +16,7 @@ import kz.dentalux.webapp.models.Schedule.Status;
 import kz.dentalux.webapp.repositories.ScheduleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class ScheduleService {
@@ -33,7 +35,7 @@ public class ScheduleService {
         this.modelMapper = modelMapper;
     }
 
-    public EventDto createEvent(CreateEvent createEvent) {
+    public CreateEventRes createEvent(CreateEvent createEvent) {
         EventDto event = createEvent.getEvent();
         PatientDto patientDto = createEvent.getPatient();
         Schedule schedule = new Schedule();
@@ -61,14 +63,18 @@ public class ScheduleService {
         res.setNote(saved.getNote());
         res.setResourceId(saved.getDoctor().getId());
         res.setStatus(saved.getStatus());
-        res.setTitle(String.format("%s %s.%s.", schedule.getPatient().getLastName(),
-            schedule.getPatient().getFirstName(),
-            schedule.getPatient().getPatronymic()));
+        res.setTitle(getShortName(schedule));
         res.setStart(saved.getStartTime());
         res.setExtendedProps(Collections.singletonMap("status", saved.getStatus()));
         res.setPatientId(schedule.getPatient().getId());
-        return res;
+        PatientDto resPatient = modelMapper.map(saved.getPatient(), PatientDto.class);
+        return new CreateEventRes(res, resPatient);
 
+    }
+
+    private String getShortName(Schedule schedule) {
+        return String.format("%s %s", schedule.getPatient().getLastName(),
+            schedule.getPatient().getFirstName());
     }
 
     public List<EventDto> getEvents(LocalDate selectedDate) {
@@ -77,9 +83,7 @@ public class ScheduleService {
             .map(schedule -> new EventDto(schedule.getId(), schedule.getDoctor().getId(),
                 schedule.getStartTime(),
                 schedule.getEndTime(),
-                String.format("%s %s.%s.", schedule.getPatient().getLastName(),
-                    schedule.getPatient().getFirstName(),
-                    schedule.getPatient().getPatronymic()),
+                getShortName(schedule),
                 schedule.getStatus(),
                 schedule.getPatient().getMobilePhone(),
                 schedule.getPatient().getId(),
@@ -106,9 +110,7 @@ public class ScheduleService {
         res.setId(saved.getId());
         res.setNote(saved.getNote());
         res.setResourceId(saved.getDoctor().getId());
-        res.setTitle(String.format("%s %s.%s.", schedule.getPatient().getLastName(),
-            schedule.getPatient().getFirstName(),
-            schedule.getPatient().getPatronymic()));
+        res.setTitle(getShortName(schedule));
         res.setStart(saved.getStartTime());
         res.setPatientId(schedule.getPatient().getId());
         res.setStatus(schedule.getStatus());
@@ -128,9 +130,7 @@ public class ScheduleService {
         res.setId(saved.getId());
         res.setNote(saved.getNote());
         res.setResourceId(saved.getDoctor().getId());
-        res.setTitle(String.format("%s %s.%s.", schedule.getPatient().getLastName(),
-            schedule.getPatient().getFirstName(),
-            schedule.getPatient().getPatronymic()));
+        res.setTitle(getShortName(schedule));
         res.setStart(saved.getStartTime());
         res.setPatientId(schedule.getPatient().getId());
         res.setStatus(schedule.getStatus());
@@ -152,9 +152,7 @@ public class ScheduleService {
             .map(schedule -> new EventDto(schedule.getId(), schedule.getDoctor().getId(),
                 schedule.getStartTime(),
                 schedule.getEndTime(),
-                String.format("%s %s.%s.", schedule.getPatient().getLastName(),
-                    schedule.getPatient().getFirstName(),
-                    schedule.getPatient().getPatronymic()),
+                getShortName(schedule),
                 schedule.getStatus(),
                 schedule.getPatient().getMobilePhone(),
                 schedule.getPatient().getId(),

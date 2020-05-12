@@ -2,6 +2,7 @@ package kz.dentalux.webapp.controllers;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import kz.dentalux.webapp.dto.CreateWorkOrderResDto;
 import kz.dentalux.webapp.dto.WorkOrderDto;
 import kz.dentalux.webapp.models.WorkOrder;
 import kz.dentalux.webapp.services.WorkOrderService;
@@ -51,8 +52,8 @@ public class WorkOrderController {
     }
 
     @PostMapping("create-order")
-    public WorkOrderDto createOrder(@RequestBody WorkOrderDto workOrderDto) {
-        return modelMapper.map(service.createOrder(modelMapper.map(workOrderDto, WorkOrder.class)), WorkOrderDto.class);
+    public CreateWorkOrderResDto createOrder(@RequestBody WorkOrderDto workOrderDto) {
+        return service.createOrder(modelMapper.map(workOrderDto, WorkOrder.class));
     }
 
 
