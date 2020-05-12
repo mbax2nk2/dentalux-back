@@ -57,19 +57,24 @@ public class ScheduleService {
 
         Schedule saved = repository.save(schedule);
 
+        EventDto res = getEventDto(saved);
+        PatientDto resPatient = modelMapper.map(saved.getPatient(), PatientDto.class);
+        return new CreateEventRes(res, resPatient);
+
+    }
+
+    private EventDto getEventDto(Schedule saved) {
         EventDto res = new EventDto();
         res.setEnd(saved.getEndTime());
         res.setId(saved.getId());
         res.setNote(saved.getNote());
         res.setResourceId(saved.getDoctor().getId());
         res.setStatus(saved.getStatus());
-        res.setTitle(getShortName(schedule));
+        res.setTitle(getShortName(saved));
         res.setStart(saved.getStartTime());
-        res.setExtendedProps(Collections.singletonMap("status", saved.getStatus()));
-        res.setPatientId(schedule.getPatient().getId());
-        PatientDto resPatient = modelMapper.map(saved.getPatient(), PatientDto.class);
-        return new CreateEventRes(res, resPatient);
-
+        res.setPatientId(saved.getPatient().getId());
+        res.setCreatedDate(saved.getCreatedDate());
+        return res;
     }
 
     private String getShortName(Schedule schedule) {
@@ -80,14 +85,7 @@ public class ScheduleService {
     public List<EventDto> getEvents(LocalDate selectedDate) {
         return repository.findByStartTime(selectedDate)
             .stream()
-            .map(schedule -> new EventDto(schedule.getId(), schedule.getDoctor().getId(),
-                schedule.getStartTime(),
-                schedule.getEndTime(),
-                getShortName(schedule),
-                schedule.getStatus(),
-                schedule.getPatient().getMobilePhone(),
-                schedule.getPatient().getId(),
-                null, schedule.getNote(), schedule.getCreatedDate()))
+            .map(this::getEventDto)
             .collect(Collectors.toList());
     }
 
@@ -105,17 +103,7 @@ public class ScheduleService {
         }
 
         Schedule saved = repository.save(schedule);
-        EventDto res = new EventDto();
-        res.setEnd(saved.getEndTime());
-        res.setId(saved.getId());
-        res.setNote(saved.getNote());
-        res.setResourceId(saved.getDoctor().getId());
-        res.setTitle(getShortName(schedule));
-        res.setStart(saved.getStartTime());
-        res.setPatientId(schedule.getPatient().getId());
-        res.setStatus(schedule.getStatus());
-        res.setPatientMobilePhone(schedule.getPatient().getMobilePhone());
-        return res;
+        return getEventDto(saved);
     }
 
     public EventDto updateStatus(Long id, Status status) {
@@ -125,17 +113,8 @@ public class ScheduleService {
         schedule.setStatus(status);
 
         Schedule saved = repository.save(schedule);
-        EventDto res = new EventDto();
-        res.setEnd(saved.getEndTime());
-        res.setId(saved.getId());
-        res.setNote(saved.getNote());
-        res.setResourceId(saved.getDoctor().getId());
-        res.setTitle(getShortName(schedule));
-        res.setStart(saved.getStartTime());
-        res.setPatientId(schedule.getPatient().getId());
-        res.setStatus(schedule.getStatus());
-        res.setPatientMobilePhone(schedule.getPatient().getMobilePhone());
-        return res;
+
+        return getEventDto(saved);
     }
 
     public Optional<Schedule> findById(long id) {
@@ -149,14 +128,7 @@ public class ScheduleService {
     public List<EventDto> findAll() {
         return repository.findAll()
             .stream()
-            .map(schedule -> new EventDto(schedule.getId(), schedule.getDoctor().getId(),
-                schedule.getStartTime(),
-                schedule.getEndTime(),
-                getShortName(schedule),
-                schedule.getStatus(),
-                schedule.getPatient().getMobilePhone(),
-                schedule.getPatient().getId(),
-                null, schedule.getNote(), schedule.getCreatedDate()))
+            .map(this::getEventDto)
             .collect(Collectors.toList());
     }
 }
