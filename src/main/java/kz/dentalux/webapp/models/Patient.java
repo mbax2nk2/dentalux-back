@@ -2,6 +2,8 @@ package kz.dentalux.webapp.models;
 
 import java.sql.Date;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,6 +33,12 @@ public class Patient {
     private String comment;
     private String additionalComment;
     private String email;
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.FIRST_TIME;
+
+    public enum Status {
+        FIRST_TIME, REPEATED
+    }
 
     public Patient(Long id) {
         this.id = id;
