@@ -1,9 +1,12 @@
 package kz.dentalux.webapp.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import kz.dentalux.webapp.dto.PatientDto;
 import kz.dentalux.webapp.models.Patient;
 import kz.dentalux.webapp.services.PatientService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,18 +22,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class PatientController {
 
     private PatientService service;
+    private ModelMapper modelMapper;
 
-    public PatientController(PatientService service) {
+    public PatientController(PatientService service, ModelMapper modelMapper) {
         this.service = service;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping
-    public List<Patient> all() {
-        return service.findAll();
+    public List<PatientDto> all() {
+        return service.findAll().stream().map(patient -> modelMapper.map(patient, PatientDto.class)).collect(
+            Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public Patient all(@PathVariable("id") Long id) {
+    public Patient findById(@PathVariable("id") Long id) {
         return service.findById(id)
             .orElseThrow(() -> new IllegalStateException("patient not found"));
     }

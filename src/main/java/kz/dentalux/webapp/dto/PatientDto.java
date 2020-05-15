@@ -25,6 +25,7 @@ public class PatientDto {
     private String comment;
     private String additionalComment;
     private String email;
-    private Status status;
+    private Status status = Status.FIRST_TIME;
+    private int saldo;
 
 }

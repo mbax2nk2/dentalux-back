@@ -74,6 +74,7 @@ public class ScheduleService {
         res.setStart(saved.getStartTime());
         res.setPatientId(saved.getPatient().getId());
         res.setCreatedDate(saved.getCreatedDate());
+        res.setPatientMobilePhone(saved.getPatient().getMobilePhone());
         return res;
     }
 
