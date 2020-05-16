@@ -2,6 +2,7 @@ package kz.dentalux.webapp.controllers;
 
 import java.time.LocalDate;
 import java.util.List;
+import kz.dentalux.webapp.dto.CancelEventDto;
 import kz.dentalux.webapp.dto.CreateEvent;
 import kz.dentalux.webapp.dto.CreateEventRes;
 import kz.dentalux.webapp.dto.EventDto;
@@ -51,6 +52,11 @@ public class SchedulerController {
     public EventDto updateStatus(@PathVariable("id") Long id,
         @RequestParam("status") Status status) {
         return service.updateStatus(id, status);
+    }
+
+    @PutMapping("/cancel/{id}")
+    public EventDto cancel(@PathVariable("id") Long id, @RequestBody CancelEventDto cancelEvent) {
+        return service.cancelEvent(id, cancelEvent);
     }
 
     @GetMapping("/events")

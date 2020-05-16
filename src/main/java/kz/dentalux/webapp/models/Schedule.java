@@ -29,6 +29,8 @@ public class Schedule {
     private OffsetDateTime startTime;
     private OffsetDateTime endTime;
     private String note;
+    private Integer cancelReasonId;
+    private String cancelComment;
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private Patient patient;
@@ -41,6 +43,7 @@ public class Schedule {
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.PENDING;
+
 
     public enum Status {
         PENDING, ARRIVED, MISSED, FINISHED, CONFIRMED, START_APPOINTMENT, COMPLETED,

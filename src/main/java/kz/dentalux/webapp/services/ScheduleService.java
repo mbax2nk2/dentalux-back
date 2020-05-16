@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import kz.dentalux.webapp.dto.CancelEventDto;
 import kz.dentalux.webapp.dto.CreateEvent;
 import kz.dentalux.webapp.dto.CreateEventRes;
 import kz.dentalux.webapp.dto.EventDto;
@@ -75,6 +76,8 @@ public class ScheduleService {
         res.setPatientId(saved.getPatient().getId());
         res.setCreatedDate(saved.getCreatedDate());
         res.setPatientMobilePhone(saved.getPatient().getMobilePhone());
+        res.setCancelComment(saved.getCancelComment());
+        res.setCancelReasonId(saved.getCancelReasonId());
         return res;
     }
 
@@ -131,5 +134,15 @@ public class ScheduleService {
             .stream()
             .map(this::getEventDto)
             .collect(Collectors.toList());
+    }
+
+    public EventDto cancelEvent(Long id, CancelEventDto cancelEvent) {
+        Schedule schedule = repository.findById(id)
+            .orElseThrow(() -> new IllegalStateException("schedule not found"));
+        schedule.setStatus(Status.CANCELLED);
+        schedule.setCancelReasonId(cancelEvent.getCancelReasonId());
+        schedule.setCancelComment(cancelEvent.getCancelComment());
+        Schedule saved = repository.save(schedule);
+        return getEventDto(saved);
     }
 }

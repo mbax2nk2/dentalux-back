@@ -22,4 +22,6 @@ public class EventDto {
     private Map<String, Object> extendedProps;
     private String note;
     private OffsetDateTime createdDate;
+    private Integer cancelReasonId;
+    private String cancelComment;
 }
