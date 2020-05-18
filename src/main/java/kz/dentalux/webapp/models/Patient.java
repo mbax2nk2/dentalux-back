@@ -35,6 +35,8 @@ public class Patient {
     private String email;
     @Enumerated(EnumType.STRING)
     private Status status = Status.FIRST_TIME;
+    private Boolean child;
+    private String parentFullName;
 
     public enum Status {
         FIRST_TIME, REPEATED

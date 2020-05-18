@@ -27,5 +27,7 @@ public class PatientDto {
     private String email;
     private Status status = Status.FIRST_TIME;
     private int saldo;
+    private Boolean child;
+    private String parentFullName;
 
 }

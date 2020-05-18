@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,9 +41,11 @@ public class WorkOrder {
     private boolean periodontology;
     private double employeeDiscount;
     private double adminDiscount;
-    private double total;
-    private double subTotal;
+    private int total;
+    private int subTotal;
     private Long medicalHistoryId;
+    private Integer debt;
+    @Transient
     private Integer saldo;
     private Integer amountPaid;
 

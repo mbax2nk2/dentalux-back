@@ -39,5 +39,6 @@ public class SelectedService {
     private int[] toothList;
 
     private Integer quantity;
+    private Integer total;
 
 }

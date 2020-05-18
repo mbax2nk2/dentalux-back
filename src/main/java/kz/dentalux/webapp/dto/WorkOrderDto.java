@@ -26,8 +26,8 @@ public class WorkOrderDto {
     private boolean periodontology;
     private double employeeDiscount;
     private double adminDiscount;
-    private double total;
-    private double subTotal;
+    private int total;
+    private int subTotal;
     private Long patientId;
     private Long scheduleId;
     private Long doctorId;
@@ -36,5 +36,6 @@ public class WorkOrderDto {
     private OffsetDateTime createdDate;
     private Long medicalHistoryId;
     private int saldo;
+    private int debt;
     private int amountPaid;
 }

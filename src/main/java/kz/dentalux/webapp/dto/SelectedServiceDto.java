@@ -24,5 +24,6 @@ public class SelectedServiceDto {
     private Long serviceId;
     private int[] toothList;
     private int quantity;
+    private int total;
 
 }

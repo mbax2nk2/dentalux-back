@@ -1,9 +1,11 @@
 package kz.dentalux.webapp.controllers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import kz.dentalux.webapp.dto.CompleteOrderRes;
 import kz.dentalux.webapp.dto.CreateWorkOrderResDto;
+import kz.dentalux.webapp.dto.PayDebtResDto;
 import kz.dentalux.webapp.dto.WorkOrderDto;
 import kz.dentalux.webapp.models.WorkOrder;
 import kz.dentalux.webapp.services.WorkOrderService;
@@ -64,6 +66,11 @@ public class WorkOrderController {
             .completeOrder(id, modelMapper.map(workOrderDto, WorkOrder.class));
         return modelMapper.map(
             source, CompleteOrderRes.class);
+    }
+
+    @PutMapping("/pay-debt/{id}")
+    public PayDebtResDto payDebt(@PathVariable("id") Long id, @RequestBody Map<String, Integer> map) {
+        return service.payDebt(id, map.get("amount"));
     }
 
 }

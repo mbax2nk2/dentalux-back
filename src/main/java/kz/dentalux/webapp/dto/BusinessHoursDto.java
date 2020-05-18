@@ -1,6 +1,6 @@
 package kz.dentalux.webapp.dto;
 
-import java.util.List;
+import java.time.OffsetTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CompleteOrderRes {
-    private EventDto event;
-    private PatientDto patient;
-    private List<WorkOrderDto> workOrders;
+public class BusinessHoursDto {
+
+    private OffsetTime startTime;
+    private OffsetTime endTime;
+    private int[] daysOfWeek;
 }

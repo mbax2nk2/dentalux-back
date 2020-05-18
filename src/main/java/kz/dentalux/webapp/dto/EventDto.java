@@ -23,5 +23,6 @@ public class EventDto {
     private String note;
     private OffsetDateTime createdDate;
     private Integer cancelReasonId;
+    private Integer changeReasonId;
     private String cancelComment;
 }

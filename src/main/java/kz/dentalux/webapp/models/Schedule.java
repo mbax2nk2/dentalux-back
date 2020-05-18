@@ -31,6 +31,7 @@ public class Schedule {
     private String note;
     private Integer cancelReasonId;
     private String cancelComment;
+    private Integer changeReasonId;
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private Patient patient;
