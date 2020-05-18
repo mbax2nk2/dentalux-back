@@ -138,8 +138,8 @@ public class WorkOrderService extends AbstractService {
     public PayDebtResDto payDebt(Long id, int amount) {
         WorkOrder found = repository.findById(id)
             .orElseThrow(() -> new IllegalStateException("order not found"));
-        found.setDebt(amount - Math.abs(found.getDebt()));
-        found.setAmountPaid(amount);
+        found.setDebt(Math.abs(amount - found.getDebt()));
+        found.setAmountPaid(Math.min(amount, found.getTotal()));
         Patient patient = patientService.updateSaldo(found.getPatient().getId(),
             amount + found.getPatient().getSaldo());
         repository.save(found);
