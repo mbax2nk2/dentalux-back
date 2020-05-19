@@ -107,7 +107,7 @@ public class WorkOrderService extends AbstractService {
             .findByPatient_IdAndDebtGreaterThanOrderByCreatedDateDesc(patientId, 0);
         int index = 0;
         log.info("leftOver left {}", leftOver);
-        while (leftOver > 0) {
+        while (leftOver > 0 && index < workOrders.size()) {
             WorkOrder workOrder = workOrders.get(index);
             log.info("processing workorder id {}, leftOver {}, debt {}", workOrder.getId(),
                 leftOver, workOrder.getDebt());
