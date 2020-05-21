@@ -70,20 +70,36 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .cors()
             .and()
+            .logout()
+            .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
+            .deleteCookies("token")
+            .and()
             .authorizeRequests()
             .antMatchers("/auth/**").permitAll()
             .anyRequest().authenticated()
             .and()
-            .apply(new JwtSecurityConfigurer(jwtTokenProvider));;
+            .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider))
+            .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtTokenProvider))
+        ;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
+        auth
+            .userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder())
+            .and()
+            .inMemoryAuthentication()
             .withUser("test")
             .password(passwordEncoder().encode("test"))
-            .roles("USER");
+            .authorities("COMPANY_Interdent Clinic")
+            .roles("ADMIN");
     }
+//
+//    @Override
+//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+//    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -91,6 +107,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowedOrigins(Collections.singletonList("*"));
         configuration.setAllowedMethods(Collections.singletonList("*"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
