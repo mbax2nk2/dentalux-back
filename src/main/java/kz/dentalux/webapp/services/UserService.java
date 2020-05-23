@@ -40,9 +40,7 @@ public class UserService extends AbstractAuthService implements UserDetailsServi
     public List<AppUser> findAll() {
         AppUser user = super.loggedInUser()
             .orElseThrow(() -> new IllegalStateException("unauthorised"));
-        AppUser query = new AppUser();
-        query.setCompany(user.getCompany());
-        return repository.findAll(Example.of(query));
+        return repository.findAllByCompany_id(user.getCompany().getId());
     }
 
     public AppUser updateStatus(Long id, boolean enabled) {
