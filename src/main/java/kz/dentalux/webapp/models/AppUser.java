@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import kz.dentalux.webapp.models.dictionary.Color;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,12 +45,24 @@ public class AppUser implements UserDetails {
     private boolean credentialsNonExpired = true;
     private boolean enabled = true;
     private Integer professionId;
+    private String email;
+    private Character gender;
+    private String eventColor;
+    private Boolean canGiveDiscount;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<AppGrantedAuthority> authorities;
 
     @OneToOne
     private Company company;
+
+    public AppUser(String username, List<AppGrantedAuthority> authorities,
+        Company company) {
+        this.username = username;
+        this.authorities = authorities;
+        this.company = company;
+    }
+
 
 
     @Override

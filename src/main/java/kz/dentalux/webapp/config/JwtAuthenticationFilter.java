@@ -57,7 +57,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         HttpServletResponse res,
         FilterChain chain,
         Authentication auth) throws IOException, ServletException {
-        String token = jwtTokenProvider.createToken(auth.getName(), auth.getAuthorities());
+        String token = jwtTokenProvider.createToken(auth);
         Cookie cookie = new Cookie("token", token);
         cookie.setHttpOnly(true);
         res.addCookie(cookie);

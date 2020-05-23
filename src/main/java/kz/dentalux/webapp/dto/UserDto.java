@@ -3,6 +3,7 @@ package kz.dentalux.webapp.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.util.List;
+import kz.dentalux.webapp.models.AppGrantedAuthority;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,14 +25,17 @@ public class UserDto {
     private LocalDate birthDate;
     private Character gender;
     private String livingAddress;
+    private String mobilePhone;
     private String phone;
-    private String telephone;
+    private String email;
     private int professionId;
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;
     private boolean credentialsNonExpired = true;
     private boolean enabled = true;
-    private List<GrantedAuthority> authorities;
+    private List<AppGrantedAuthority> authorities;
     private String companyName;
+    private String eventColor;
+    private Boolean canGiveDiscount;
 
 }

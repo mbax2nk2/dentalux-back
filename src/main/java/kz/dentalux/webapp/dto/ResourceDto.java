@@ -11,5 +11,5 @@ public class ResourceDto {
     private String title;
     private String eventColor;
     private boolean self;
-    private BusinessHoursDto businessHours;
+//    private BusinessHoursDto businessHours;
 }

@@ -1,0 +1,14 @@
+package kz.dentalux.webapp.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SaveUserDtoRes {
+    private UserDto user;
+    private ResourceDto doctor;
+
+}

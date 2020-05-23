@@ -1,6 +1,7 @@
 package kz.dentalux.webapp.models;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,13 +24,14 @@ public class Doctor {
     private String firstName;
     private String lastName;
     private String patronymic;
-    private Date birthDate;
-    private String livingAddress;
-    private Character gender;
-    private String mobilePhone;
-    private String telephone;
     private String eventColor;
     private Long userId;
+    private Long companyId;
+
+    public Doctor(Long userId, Long companyId) {
+        this.userId = userId;
+        this.companyId = companyId;
+    }
 
     public Doctor(Long id) {
         this.id = id;

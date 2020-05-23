@@ -39,31 +39,4 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
-
-    @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> signin(@RequestBody AuthenticationRequest data) {
-
-        try {
-            String username = data.getUsername();
-            Authentication authenticate = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, data.getPassword()));
-
-            String token = jwtTokenProvider.createToken(username, authenticate.getAuthorities());
-
-            Map<String, Object> model = new HashMap<>();
-            model.put("token", token);
-            if (authenticate.getDetails() instanceof AppUser) {
-                AppUser user = (AppUser) authenticate.getDetails();
-                model.put("name", String.format("%s %s",
-                    StringUtils.isEmpty(user.getLastName()) ? "" : user.getLastName(),
-                    StringUtils.isEmpty(user.getFirstName()) ? "" : user.getFirstName()));
-            } else {
-                model.put("name", authenticate.getName());
-            }
-
-            return ok(model);
-        } catch (AuthenticationException e) {
-            throw new BadCredentialsException("Invalid username/password supplied");
-        }
-    }
 }
