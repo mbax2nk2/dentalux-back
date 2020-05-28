@@ -2,10 +2,14 @@ package kz.dentalux.webapp.models;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import kz.dentalux.webapp.dto.BusinessHoursDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +31,9 @@ public class Doctor {
     private String eventColor;
     private Long userId;
     private Long companyId;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<BusinessHours> businessHours;
 
     public Doctor(Long userId, Long companyId) {
         this.userId = userId;

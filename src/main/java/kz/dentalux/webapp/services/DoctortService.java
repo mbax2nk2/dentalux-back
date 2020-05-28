@@ -1,12 +1,18 @@
 package kz.dentalux.webapp.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import kz.dentalux.webapp.dto.BusinessHoursDto;
 import kz.dentalux.webapp.dto.ResourceDto;
 import kz.dentalux.webapp.models.AppUser;
+import kz.dentalux.webapp.models.BusinessHours;
 import kz.dentalux.webapp.models.Doctor;
 import kz.dentalux.webapp.repositories.DoctorRepository;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.modelmapper.internal.asm.TypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -14,9 +20,11 @@ import org.springframework.util.StringUtils;
 public class DoctortService extends AbstractAuthService {
 
     private final DoctorRepository repository;
+    private final ModelMapper modelMapper;
 
-    public DoctortService(DoctorRepository repository) {
+    public DoctortService(DoctorRepository repository, ModelMapper modelMapper) {
         this.repository = repository;
+        this.modelMapper = modelMapper;
     }
 
     public List<ResourceDto> findAll() {
@@ -33,16 +41,50 @@ public class DoctortService extends AbstractAuthService {
     }
 
     private ResourceDto getResourceDto(Long userId, Doctor doctor) {
+//        BusinessHoursDto businessHoursDto = new BusinessHoursDto(
+//            LocalTime.of(9, 0),
+//            LocalTime.of(11, 0),
+//            new int[]{1});
+//        BusinessHoursDto businessHoursDto1 = new BusinessHoursDto(
+//            LocalTime.of(12, 0),
+//            LocalTime.of(17, 0),
+//            new int[]{1, 2, 4, 5, 6, 7});
+        List<BusinessHoursDto> businessHours = modelMapper
+            .map(doctor.getBusinessHours(), new TypeToken<List<BusinessHoursDto>>() {
+            }.getType());
         return new ResourceDto(doctor.getId(),
             String.format("%s %s. %s", doctor.getLastName(),
                 doctor.getFirstName().substring(0, 1),
                 StringUtils.isEmpty(doctor.getPatronymic()) ? ""
                     : doctor.getPatronymic().substring(0, 1).concat(".")
             ),
-            doctor.getEventColor(),userId.equals(doctor.getUserId())
-//            new BusinessHoursDto(OffsetTime.of(LocalTime.of(12, 0), ZoneOffset.UTC),
-//                OffsetTime.of(LocalTime.of(17, 0), ZoneOffset.UTC),
-//                new int[]{1, 2, 3, 4, 5, 6, 7})
+            doctor.getEventColor(), userId.equals(doctor.getUserId()),
+            businessHours
+//            Arrays.asList(businessHoursDto1)
+        );
+    }
+
+    private ResourceDto getResourceDto(boolean self, Doctor doctor) {
+//        BusinessHoursDto businessHoursDto = new BusinessHoursDto(
+//            LocalTime.of(9, 0),
+//            LocalTime.of(11, 0),
+//            new int[]{1});
+//        BusinessHoursDto businessHoursDto1 = new BusinessHoursDto(
+//            LocalTime.of(12, 0),
+//            LocalTime.of(17, 0),
+//            new int[]{1, 2, 4, 5, 6, 7});
+        List<BusinessHoursDto> businessHours = modelMapper
+            .map(doctor.getBusinessHours(), new TypeToken<List<BusinessHoursDto>>() {
+            }.getType());
+        return new ResourceDto(doctor.getId(),
+            String.format("%s %s. %s", doctor.getLastName(),
+                doctor.getFirstName().substring(0, 1),
+                StringUtils.isEmpty(doctor.getPatronymic()) ? ""
+                    : doctor.getPatronymic().substring(0, 1).concat(".")
+            ),
+            doctor.getEventColor(), self,
+            businessHours
+//            Arrays.asList(businessHoursDto1)
         );
     }
 
@@ -59,5 +101,18 @@ public class DoctortService extends AbstractAuthService {
         doctor.setPatronymic(user.getPatronymic());
         Doctor saved = repository.save(doctor);
         return getResourceDto(0L, saved);
+    }
+
+    public ResourceDto updateWorkingHours(Long id, ResourceDto resourceDto) {
+        Doctor doctor = repository.findById(id)
+            .orElseThrow(() -> new IllegalStateException("doctor not found"));
+
+        List<BusinessHours> map = modelMapper
+            .map(resourceDto.getBusinessHours(), new TypeToken<List<BusinessHours>>() {
+            }.getType());
+        doctor.setBusinessHours(map);
+        repository.save(doctor);
+        return getResourceDto(resourceDto.isSelf(), doctor);
+
     }
 }

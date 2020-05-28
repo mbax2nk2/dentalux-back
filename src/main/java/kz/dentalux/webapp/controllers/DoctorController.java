@@ -7,6 +7,8 @@ import kz.dentalux.webapp.services.DoctortService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +27,11 @@ public class DoctorController {
     @GetMapping
     public List<ResourceDto> all() {
         return service.findAll();
+    }
+
+    @PutMapping("/{id}/workingHours")
+    public ResourceDto updateWorkingHours(@PathVariable Long id, @RequestBody ResourceDto resourceDto) {
+        return service.updateWorkingHours(id, resourceDto);
     }
 
 //    @GetMapping("/{id}")

@@ -85,9 +85,13 @@ public class UserService extends AbstractAuthService implements UserDetailsServi
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCompany(loggedInUser.getCompany());
         AppUser saved = repository.save(user);
-        ResourceDto resourceDto = doctortService.saveDoctor(saved);
+        if(saved.getProfessionId() != 2) {
+            ResourceDto resourceDto = doctortService.saveDoctor(saved);
+            UserDto userDto = modelMapper.map(saved, UserDto.class);
+            return new SaveUserDtoRes(userDto, resourceDto);
+        }
         UserDto userDto = modelMapper.map(saved, UserDto.class);
-        return new SaveUserDtoRes(userDto, resourceDto);
+        return new SaveUserDtoRes(userDto, null);
     }
 
     public Long findUserId(String username) {

@@ -1,6 +1,7 @@
 package kz.dentalux.webapp.dto;
 
 import java.sql.Date;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,5 +12,5 @@ public class ResourceDto {
     private String title;
     private String eventColor;
     private boolean self;
-//    private BusinessHoursDto businessHours;
+    private List<BusinessHoursDto> businessHours;
 }
