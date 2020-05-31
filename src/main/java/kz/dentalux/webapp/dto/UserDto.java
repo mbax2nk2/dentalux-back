@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.util.List;
 import kz.dentalux.webapp.models.AppGrantedAuthority;
+import kz.dentalux.webapp.models.BusinessHours;
+import kz.dentalux.webapp.models.Doctor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,5 +39,13 @@ public class UserDto {
     private String companyName;
     private String eventColor;
     private Boolean canGiveDiscount;
-
+    private List<BusinessHoursDto> businessHours;
+    private Integer therapy;
+    private Integer orthodontics;
+    private Integer orthopedics;
+    private Integer surgery;
+    private Integer periodontium;
+    private Integer periodontology;
+    private Integer childrenDentistry;
+    private Integer implantation;
 }

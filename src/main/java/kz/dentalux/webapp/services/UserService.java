@@ -66,6 +66,7 @@ public class UserService extends AbstractAuthService implements UserDetailsServi
         found.setEventColor(user.getEventColor());
         found.setProfessionId(user.getProfessionId());
         found.setCanGiveDiscount(user.getCanGiveDiscount());
+        found.setBusinessHours(user.getBusinessHours());
         if(!StringUtils.isEmpty(user.getPassword())) {
             found.setPassword(passwordEncoder.encode(user.getPassword()));
         }
@@ -85,9 +86,9 @@ public class UserService extends AbstractAuthService implements UserDetailsServi
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCompany(loggedInUser.getCompany());
         AppUser saved = repository.save(user);
-        if(saved.getProfessionId() != 2) {
-            ResourceDto resourceDto = doctortService.saveDoctor(saved);
+        if(saved.getProfessionId() == 2) {
             UserDto userDto = modelMapper.map(saved, UserDto.class);
+            ResourceDto resourceDto = doctortService.saveDoctor(user);
             return new SaveUserDtoRes(userDto, resourceDto);
         }
         UserDto userDto = modelMapper.map(saved, UserDto.class);

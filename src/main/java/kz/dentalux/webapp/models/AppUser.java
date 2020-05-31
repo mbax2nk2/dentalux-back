@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -49,9 +50,20 @@ public class AppUser implements UserDetails {
     private Character gender;
     private String eventColor;
     private Boolean canGiveDiscount;
+    private Integer therapy;
+    private Integer orthodontics;
+    private Integer orthopedics;
+    private Integer surgery;
+    private Integer periodontium;
+    private Integer periodontology;
+    private Integer childrenDentistry;
+    private Integer implantation;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<AppGrantedAuthority> authorities;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<BusinessHours> businessHours;
 
     @OneToOne
     private Company company;

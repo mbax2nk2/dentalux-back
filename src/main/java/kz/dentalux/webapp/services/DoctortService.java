@@ -13,6 +13,7 @@ import kz.dentalux.webapp.repositories.DoctorRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.modelmapper.internal.asm.TypeReference;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -99,6 +100,17 @@ public class DoctortService extends AbstractAuthService {
         doctor.setFirstName(user.getFirstName());
         doctor.setLastName(user.getLastName());
         doctor.setPatronymic(user.getPatronymic());
+        doctor.setImplantation(user.getImplantation());
+        doctor.setOrthodontics(user.getOrthodontics());
+        doctor.setChildrenDentistry(user.getChildrenDentistry());
+        doctor.setOrthopedics(user.getOrthopedics());
+        doctor.setPeriodontium(user.getPeriodontium());
+        doctor.setPeriodontology(user.getPeriodontology());
+        doctor.setSurgery(user.getSurgery());
+        doctor.setTherapy(user.getTherapy());
+        List<BusinessHours> businessHours = new ArrayList<>();
+//        BeanUtils.copyProperties(user.getBusinessHours(), businessHours);
+        doctor.setBusinessHours(new ArrayList<>(user.getBusinessHours()));
         Doctor saved = repository.save(doctor);
         return getResourceDto(0L, saved);
     }
