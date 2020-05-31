@@ -75,6 +75,7 @@ public class UserService extends AbstractAuthService implements UserDetailsServi
         found.setPeriodontology(user.getPeriodontology());
         found.setSurgery(user.getSurgery());
         found.setTherapy(user.getTherapy());
+        found.setEventColor(user.getEventColor());
         if(!StringUtils.isEmpty(user.getPassword())) {
             found.setPassword(passwordEncoder.encode(user.getPassword()));
         }
