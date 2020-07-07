@@ -7,7 +7,6 @@ import kz.dentalux.webapp.dto.UserDto;
 import kz.dentalux.webapp.models.AppUser;
 import kz.dentalux.webapp.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Example;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,15 +19,15 @@ public class UserService extends AbstractAuthService implements UserDetailsServi
 
     private final UserRepository repository;
     private PasswordEncoder passwordEncoder;
-    private DoctortService doctortService;
+    private DoctorService doctorService;
     private ModelMapper modelMapper;
 
     public UserService(UserRepository repository,
-        PasswordEncoder passwordEncoder, DoctortService doctortService,
+        PasswordEncoder passwordEncoder, DoctorService doctorService,
         ModelMapper modelMapper) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
-        this.doctortService = doctortService;
+        this.doctorService = doctorService;
         this.modelMapper = modelMapper;
     }
 
@@ -80,7 +79,7 @@ public class UserService extends AbstractAuthService implements UserDetailsServi
             found.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         AppUser saved = repository.save(found);
-        ResourceDto resourceDto = doctortService.saveDoctor(saved);
+        ResourceDto resourceDto = doctorService.saveDoctor(saved);
         UserDto userDto = modelMapper.map(saved, UserDto.class);
         return new SaveUserDtoRes(userDto, resourceDto);
     }
@@ -97,7 +96,7 @@ public class UserService extends AbstractAuthService implements UserDetailsServi
         AppUser saved = repository.save(user);
         if(saved.getProfessionId() == 2) {
             UserDto userDto = modelMapper.map(saved, UserDto.class);
-            ResourceDto resourceDto = doctortService.saveDoctor(user);
+            ResourceDto resourceDto = doctorService.saveDoctor(user);
             return new SaveUserDtoRes(userDto, resourceDto);
         }
         UserDto userDto = modelMapper.map(saved, UserDto.class);

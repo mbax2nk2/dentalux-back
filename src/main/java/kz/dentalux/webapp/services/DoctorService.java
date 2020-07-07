@@ -18,12 +18,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Service
-public class DoctortService extends AbstractAuthService {
+public class DoctorService extends AbstractAuthService {
 
     private final DoctorRepository repository;
     private final ModelMapper modelMapper;
 
-    public DoctortService(DoctorRepository repository, ModelMapper modelMapper) {
+    public DoctorService(DoctorRepository repository, ModelMapper modelMapper) {
         this.repository = repository;
         this.modelMapper = modelMapper;
     }
@@ -91,6 +91,10 @@ public class DoctortService extends AbstractAuthService {
 
     public Optional<Doctor> findById(Long id) {
         return repository.findById(id);
+    }
+
+    public Optional<Doctor> findByUserId(Long id) {
+        return repository.findByUserId(id);
     }
 
     public ResourceDto saveDoctor(AppUser user) {

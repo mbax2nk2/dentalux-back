@@ -1,5 +1,7 @@
 package kz.dentalux.webapp.services;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -146,5 +148,9 @@ public class WorkOrderService extends AbstractService {
         PatientDto patientDto = modelMapper.map(patient, PatientDto.class);
         WorkOrderDto work = modelMapper.map(found, WorkOrderDto.class);
         return new PayDebtResDto(work, patientDto);
+    }
+
+    public List<WorkOrder> findWorkOrdersBetween(OffsetDateTime from, OffsetDateTime to) {
+        return repository.findWorkOrdersByCreatedDateBetween(from, to);
     }
 }

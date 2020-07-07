@@ -1,7 +1,6 @@
 package kz.dentalux.webapp.services;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,22 +16,21 @@ import kz.dentalux.webapp.models.Schedule.Status;
 import kz.dentalux.webapp.repositories.ScheduleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 @Service
 public class ScheduleService {
 
     private ScheduleRepository repository;
     private PatientService patientService;
-    private DoctortService doctortService;
+    private DoctorService doctorService;
     private ModelMapper modelMapper;
 
     public ScheduleService(ScheduleRepository repository,
-        PatientService patientService, DoctortService doctortService,
+        PatientService patientService, DoctorService doctorService,
         ModelMapper modelMapper) {
         this.repository = repository;
         this.patientService = patientService;
-        this.doctortService = doctortService;
+        this.doctorService = doctorService;
         this.modelMapper = modelMapper;
     }
 
@@ -48,7 +46,7 @@ public class ScheduleService {
             Patient patient = modelMapper.map(patientDto, Patient.class);
             schedule.setPatient(patient);
         }
-        Doctor doctor = doctortService.findById(event.getResourceId())
+        Doctor doctor = doctorService.findById(event.getResourceId())
             .orElseThrow(() -> new IllegalStateException("doctor not found"));
 
         schedule.setDoctor(doctor);
@@ -101,7 +99,7 @@ public class ScheduleService {
         schedule.setEndTime(eventDto.getEnd());
 
         if (eventDto.getResourceId() != null) {
-            Doctor doctor = doctortService.findById(eventDto.getResourceId())
+            Doctor doctor = doctorService.findById(eventDto.getResourceId())
                 .orElseThrow(() -> new IllegalStateException("doctor not found"));
             schedule.setDoctor(doctor);
         }
